@@ -2,6 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <random>
+#include <chrono>
 #include <cstring>
 
 #define BOARD_SIZE 9
@@ -55,4 +57,38 @@ bool solveSudoku(std::vector<std::vector<int>>& board) {
     }
 
     return true;
+}
+
+// Function to generate a Sudoku puzzle
+void generateSudoku(int numPuzzles) {
+    std::ofstream file("sudoku_puzzles.txt");
+
+    std::vector<int> nums(BOARD_SIZE);
+    std::iota(nums.begin(), nums.end(), 1);
+
+    std::random_device rd;
+    std::mt19937 generator(rd());
+
+    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    std::shuffle(nums.begin(), nums.end(), std::default_random_engine(seed));
+
+    for (int i = 0; i < numPuzzles; i++) {
+        std::vector<std::vector<int>> board(BOARD_SIZE, std::vector<int>(BOARD_SIZE, 0));
+
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            board[0][j] = nums[j];
+        }
+
+        solveSudoku(board);
+
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                file << board[row][col] << " ";
+            }
+            file << std::endl;
+        }
+        file << std::endl;
+    }
+
+    file.close();
 }
