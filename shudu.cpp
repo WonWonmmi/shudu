@@ -1,3 +1,31 @@
+/*****************************************************************************
+*  xxx xxx  Co., Ltd                                                         *
+*  Copyright (C) 2014 xxx xxx                                                * 
+*  This program implements a Sudoku program. You can use it to generate      *
+*  Sudoku endings to files, and read Sudoku from files and solve puzzles. In *
+*  this program, we have used backtracking algorithm to solve sudoku problem.*                                       *
+*                                                                            *
+*  @file     shudu.cpp                                                       *
+*  @brief    数独                                                            *
+*  Details.                                                                  *
+*                                                                            *
+*  @author   jlx lxk                                                         *
+*  @email    jlx0626sammi@163.com                                            *
+*  @version  1.0.0.1(版本号)                                                  *
+*  @date     2023-06-27                                                      *
+*  @license  GNU General Public License (GPL)                                *
+*                                                                            *
+*----------------------------------------------------------------------------*
+*  Remark         : Description                                              *
+*----------------------------------------------------------------------------*
+*  Change History :                                                          *
+*   Date      |   Version | Author      | Description                        *
+*----------------------------------------------------------------------------*
+*  2023/06/27 | 1.0.0.1   | lxk jlx      | Create file                         *
+*----------------------------------------------------------------------------*
+*                                                                            *
+*****************************************************************************/
+
 #include <iostream>
 #include <fstream>
 #include <vector>
