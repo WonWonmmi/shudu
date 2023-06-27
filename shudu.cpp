@@ -69,10 +69,10 @@ void generateSudoku(int numPuzzles) {
     std::random_device rd;
     std::mt19937 generator(rd());
 
-    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    std::shuffle(nums.begin(), nums.end(), std::default_random_engine(seed));
-
     for (int i = 0; i < numPuzzles; i++) {
+        auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        std::shuffle(nums.begin(), nums.end(), std::default_random_engine(seed));
+
         std::vector<std::vector<int>> board(BOARD_SIZE, std::vector<int>(BOARD_SIZE, 0));
 
         for (int j = 0; j < BOARD_SIZE; j++) {
