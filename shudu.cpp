@@ -203,10 +203,27 @@ int main(int argc, char* argv[]) {
     {
         solveSudokuFromFile(argv[2]);
     } 
-    else if (argc == 3 && strcmp(argv[1], "-n") == 0)
+    else if (strcmp(argv[1], "-n") == 0)
     {
         int numPuzzles = std::stoi(argv[2]);
-        generateSudokuGames(numPuzzles, 20); //默认挖空20个
+        //难度，挖空个数参数缺省
+        if(argc == 3)
+        {
+             generateSudokuGames(numPuzzles, 10); //默认挖空10个 难度等级为1
+        }
+        else
+        {
+            if(strcmp(argv[3], "-m") == 0)
+            {
+                int numBlank = std::stoi(argv[4])*10;
+                generateSudokuGames(numPuzzles, numBlank);
+            }
+            else if (strcmp(argv[3], "-r") == 0)
+            {
+                int numBlank = std::stoi(argv[4]);
+                generateSudokuGames(numPuzzles, numBlank);
+            }    
+        }
         std::cout << "Sudoku games generated successfully." << std::endl;
     }
     else 
