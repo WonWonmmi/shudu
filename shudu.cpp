@@ -96,6 +96,60 @@ void generateSudoku(int numPuzzles) {
     file.close();
 }
 
+// 生成指定数量的数独游戏，并将结果保存到文件中
+void generateSudokuGames(int numPuzzles, int numBlank) 
+{
+    std::ofstream file("sudoku_games.txt");
+
+    std::vector<int> nums(BOARD_SIZE);
+    std::iota(nums.begin(), nums.end(), 1);
+
+    std::random_device rd;
+    std::mt19937 generator(rd());
+
+    for (int i = 0; i < numPuzzles; i++) 
+    {
+        auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        std::shuffle(nums.begin(), nums.end(), std::default_random_engine(seed));
+
+        std::vector<std::vector<int>> board(BOARD_SIZE, std::vector<int>(BOARD_SIZE, 0));
+
+        for (int j = 0; j < BOARD_SIZE; j++) 
+        {
+            board[0][j] = nums[j];
+        }
+
+        solveSudoku(board);
+
+        // 挖空
+        for (int i = 0; i < numBlank; i++)
+        {
+            while(1)
+            {
+                int r = (rand() % 9);
+                int c = (rand() % 9);
+                if (board[r][c] != 0)
+                {
+                    board[r][c] = 0;
+                    break;
+                }
+            }
+        }
+
+        for (int row = 0; row < BOARD_SIZE; row++) 
+        {
+            for (int col = 0; col < BOARD_SIZE; col++) 
+            {
+                file << board[row][col] << " ";
+            }
+            file << std::endl;
+        }
+        file << std::endl;
+    }
+
+    file.close();
+}
+
 // 从文件中读取和解决数独谜题
 void solveSudokuFromFile(const char* path) {
     std::ifstream file(path);
@@ -139,13 +193,24 @@ void solveSudokuFromFile(const char* path) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc == 3 && strcmp(argv[1], "-c") == 0) {
+    if (argc == 3 && strcmp(argv[1], "-c") == 0) 
+    {
         int numPuzzles = std::atoi(argv[2]);
         generateSudoku(numPuzzles);
         std::cout << "Sudoku puzzles generated successfully." << std::endl;
-    } else if (argc == 3 && strcmp(argv[1], "-s") == 0) {
+    } 
+    else if (argc == 3 && strcmp(argv[1], "-s") == 0) 
+    {
         solveSudokuFromFile(argv[2]);
-    } else {
+    } 
+    else if (argc == 3 && strcmp(argv[1], "-n") == 0)
+    {
+        int numPuzzles = std::stoi(argv[2]);
+        generateSudokuGames(numPuzzles, 20); //默认挖空20个
+        std::cout << "Sudoku games generated successfully." << std::endl;
+    }
+    else 
+    {
         std::cout << "Invalid command-line arguments." << std::endl;
         std::cout << "Usage: shudu.exe -c numPuzzles" << std::endl;
         std::cout << "       shudu.exe -s path_of_file" << std::endl;
